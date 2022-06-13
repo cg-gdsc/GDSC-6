@@ -16,5 +16,5 @@ aws iam put-role-policy --role-name ROLENAME --policy-name sm-execution-policy -
 2. Image URI: 
 
 ```
-954362353459.dkr.ecr.us-east-1.amazonaws.com/sm-training-custom:torch-1.8.1-cu111
+954362353459.dkr.ecr.us-east-1.amazonaws.com/sm-training-custom:torch-1.8.1-cu111-noGPL
 ```
