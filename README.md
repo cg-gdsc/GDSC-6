@@ -8,7 +8,7 @@ Aloha challenge participant 🤙 We are glad to welcome you to the fifth Global 
 - Learn how to work with Amazon Sagemaker Studio Notebooks, and
 - Set up auto shutdown for idle instances to save costs.
 
-Along with this tutorial, there is a [video](TODO: add link to video) which walks you through the steps performed here. The video is optional for you. In this notebook tutorial the command line interface (CLI) is used for the majority of the tasks.  In the video, we mainly use the AWS Web Interface (also called AWS Console) to achieve the same. This is sometimes a bit easier, especially if you don't have a tech background. Feel free to choose whichever you prefer. 
+Along with this tutorial, there is a [video](https://web.microsoftstream.com/video/ce2af85f-e8b3-4445-ba43-2331baddb64a) which walks you through the steps performed here. The video is optional for you. In this notebook tutorial the command line interface (CLI) is used for the majority of the tasks.  In the video, we mainly use the AWS Web Interface (also called AWS Console) to achieve the same. This is sometimes a bit easier, especially if you don't have a tech background. Feel free to choose whichever you prefer. 
 
 Since your group only need to perform the tasks in this tutorial once, only one of your team members need to go through this tutorial. Please ask your team mates first!
 
@@ -27,7 +27,7 @@ TLDR; In this section of the tutorial, we will:
 - Download the notebooks to sagemaker, and
 - Start a new notebook with the kernel from our custom docker image. 
 
-You can either do this manually (shown in the corresponding [video](TODO: add link to video) for this Tutorial) or you can follow the steps below to set up the environment via the aws cloud shell.
+You can either do this manually (shown in the corresponding [video](https://web.microsoftstream.com/video/ce2af85f-e8b3-4445-ba43-2331baddb64a) for this Tutorial) or you can follow the steps below to set up the environment via the aws cloud shell.
 
 Lets jump in!
 
@@ -265,6 +265,6 @@ time . You did a great job saving costs and carbon emissions. Planet earth says 
 
 ## Summary
 
-In this tutorial, we have set up all the necessary resources to participate in the GDSC. Now, your team is ready to take part in this exiting challenge. We hope that everything in this tutorial went fine and that you will have a lots of fun in the course of the challenge. If anything didn't work out as expected, we recommend one last time taking a look at the [Video](TODO: INSERT VIDEO LINK) for this tutorial. 
+In this tutorial, we have set up all the necessary resources to participate in the GDSC. Now, your team is ready to take part in this exiting challenge. We hope that everything in this tutorial went fine and that you will have a lots of fun in the course of the challenge. If anything didn't work out as expected, we recommend one last time taking a look at the [Video](https://web.microsoftstream.com/video/ce2af85f-e8b3-4445-ba43-2331baddb64a) for this tutorial. 
 
 All right, thats it! ✅ You can now jump to Tutorial 2: Exploratory Data Analysis. You fill find it in the notebooks folder in the repository we downloaded to your Sagemaker Studio filesystem. Have fun!
