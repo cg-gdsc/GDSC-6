@@ -75,6 +75,7 @@ aws iam put-role-policy --role-name sagemaker-exec-role --policy-name sm-executi
 
 - With all these variables in place, we are ready to create a new Sagemaker domain, called gdsc-domain, and a new user profile, called team-profile. (You can change these values if you want):
 
+# TODO: when creating a domain can we disable Canvas, Forecast, and Projects? (we can in the console!)
 ```bash
 aws sagemaker create-domain --auth-mode IAM --domain-name gdsc-domain --subnet-ids $SUBNETID0 $SUBNETID1 --vpc-id $VPCID --default-user-settings="{\"ExecutionRole\":$SMROLEARN }"
 DOMAINID=$(aws sagemaker list-domains --query 'Domains[0].DomainId' --output text)
@@ -86,6 +87,8 @@ aws sagemaker create-user-profile --domain-id $DOMAINID --user-profile-name team
 ```
 
 - Lastly, we want to run this command in the cloud shell in order to attach the custom image to the previously created domain
+
+# TODO: replace this with most recent script for adding new image
 
 ```bash
 cd scripts/attach-image
@@ -122,6 +125,8 @@ In the left pane, click on the "Git" sign second in the list. Afterwards, click 
 ![](docs/smstudio-git.png "The git sign and clone repository button in Sagemaker Studio")
 
 In the pop up, enter the repository URL and click on "CLONE": 
+
+# TODO: replace this with new tutorials!
 
 ```
 https://gdsc-code-commit-user-at-954362353459:6intZSiLZxXrdboGMDDSvf9VvnpiPOo+0JoiYxZBSq4=@git-codecommit.eu-central-1.amazonaws.com/v1/repos/gdsc5-tutorials-public
@@ -237,6 +242,7 @@ Let's start by opening a <b>new system terminal</b> from the launcher (refer to 
 
 ✋  Attention: please make sure to use a <b> system </b> terminal and not an image terminal. Otherwise this step won't work for you.
 
+# TODO: replace this latest version (this wont work for JupyterLab 3.0 with is GA now)
 - Clone the git repository and navigate to the installation script
 ```bash
 git clone https://github.com/steffenkk/sagemaker-studio-lifecycle-config-examples.git sm-extension
