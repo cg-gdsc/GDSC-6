@@ -126,7 +126,7 @@ In the left pane, click on the "Git" sign second in the list. Afterwards, click 
 
 In the pop up, enter the repository URL and click on "CLONE": 
 
-# TODO: replace this with new tutorials!
+# TODO: replace this with new tutorials from Github (public repo)! 
 
 ```
 https://gdsc-code-commit-user-at-954362353459:6intZSiLZxXrdboGMDDSvf9VvnpiPOo+0JoiYxZBSq4=@git-codecommit.eu-central-1.amazonaws.com/v1/repos/gdsc5-tutorials-public
