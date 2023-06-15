@@ -22,7 +22,7 @@ Setting up your AWS accounts:
 <br>
 1. Once you are part of a team, you can login to your AWS accounts using the below credentials. Please note that no automatic e-mails will be sent out and the steps below need to be carried out manually.
 2.  <br> URL       : https://gdsc22.awsapps.com/start#/
-    <br> User Name : Use your full name as it is displayed in our portal on https://gdsc.ce.capgemini.com/app/portal/ in the 'My Team Page' and replace whitespace with underscores ("_"). Please mind upper- and lowercase in the name._ Your full name will be as marked in red in the pic below.  ![](./screenshots/Team-2023-2.png)
+    <br> User Name : As mentioned in the line - 'Your AWS account name:'  ![](./screenshots/Team-2023-10.png)
 3. Once you click on the AWS URL , relace the e-mail ID as username with the username that was suggested in the above step. Change this  ![](./screenshots/Team-2023-3.png)    to this   ![](./screenshots/Team-2023-4.png)
 4. Once you do this, you'll receive an email from no-reply@login.awsapps.com with the verification code and then you can set your password. The verification e-mail will look something like this. You need to create a new password.  ![](./screenshots/Team-2023-9.png)
 5. Once your password is set, you can log in to your account afterwards. You will see a screen like this.  ![](./screenshots/Team-2023-7.png)
