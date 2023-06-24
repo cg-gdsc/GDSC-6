@@ -3,13 +3,13 @@ This is the utils module.
 
 This module contains functions that help downloading an uploading the data from and to s3 buckets, as well as creating a bucket.
 """
-
-import boto3
 import logging
 import os
 import tarfile
-from botocore.exceptions import ClientError
 from pathlib import Path
+
+import boto3
+from botocore.exceptions import ClientError
 from tqdm import tqdm
 
 from config import DEFAULT_BUCKET, DEFAULT_REGION
@@ -17,9 +17,14 @@ from config import DEFAULT_BUCKET, DEFAULT_REGION
 PROJECT_DIR = Path(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))))
 
 
-def upload_to_s3(local_path: str, 
-                 s3_path: str, 
-                 bucket: str) -> str:
+def upload_to_s3(
+    local_path: str,
+    s3_path: str,
+    bucket: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    aws_session_token: str,
+) -> str:
     """
     Upload a file from a local directory to an S3 bucket.
 
@@ -34,15 +39,26 @@ def upload_to_s3(local_path: str,
     Raises:
         None
     """
-    client = boto3.client("s3")
+    client = boto3.client(
+        "s3",
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
+        region_name="us-east-1",
+    )
     client.upload_file(local_path, bucket, s3_path)
     return f"s3://{bucket}/{s3_path}"
 
 
-def download_file(s3_path: str, 
-                  local_dir: str, 
-                  bucket: str = DEFAULT_BUCKET, 
-                  region: str = DEFAULT_REGION)  -> str:
+def download_file(
+    s3_path: str,
+    local_dir: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    aws_session_token: str,
+    bucket: str = DEFAULT_BUCKET,
+    region: str = DEFAULT_REGION,
+) -> str:
     """
     Download a file from an S3 bucket to a local directory.
 
@@ -56,9 +72,19 @@ def download_file(s3_path: str,
         str: The local file path where the file is downloaded.
     """
     logger = logging.getLogger(__name__)
-    s3 = boto3.resource("s3", region_name=region)
+    s3 = boto3.resource(
+        "s3",
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
+        region_name=region,
+    )
     file_name = s3_path.split("/")[-1]
-    f = f"{PROJECT_DIR}/{local_dir}/{file_name}" if local_dir else f"{PROJECT_DIR}/{file_name}"
+    f = (
+        f"{PROJECT_DIR}/{local_dir}/{file_name}"
+        if local_dir
+        else f"{PROJECT_DIR}/{file_name}"
+    )
     if os.path.isfile(f):
         logger.info(f"File {s3_path} already exists. Skipping download")
         return f
@@ -66,10 +92,15 @@ def download_file(s3_path: str,
     return f
 
 
-def download_directory(s3_path: str, 
-                       local_dir: str, 
-                       bucket: str = DEFAULT_BUCKET, 
-                       region: str = DEFAULT_REGION) -> None:
+def download_directory(
+    s3_path: str,
+    local_dir: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    aws_session_token: str,
+    bucket: str = DEFAULT_BUCKET,
+    region: str = DEFAULT_REGION,
+) -> None:
     """
     Download a folder from an S3 bucket to a local directory.
 
@@ -83,7 +114,13 @@ def download_directory(s3_path: str,
         None
     """
     logger = logging.getLogger(__name__)
-    s3_resource = boto3.resource("s3", region_name=region)
+    s3_resource = boto3.resource(
+        "s3",
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
+        region_name=region,
+    )
     bucket = s3_resource.Bucket(bucket)
     local_abs_path = PROJECT_DIR / local_dir if local_dir else PROJECT_DIR
 
@@ -98,7 +135,13 @@ def download_directory(s3_path: str,
     logger.info(f"Downloaded {s3_path} to {local_abs_path}")
 
 
-def create_encrypted_bucket(bucket_name: str) -> None:
+def create_encrypted_bucket(
+    bucket_name: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    aws_session_token: str,
+    region: str = DEFAULT_REGION,
+) -> None:
     """
     Creates an encrypted S3 bucket with the specified bucket name.
 
@@ -108,7 +151,13 @@ def create_encrypted_bucket(bucket_name: str) -> None:
     Returns:
         None
     """
-    s3 = boto3.client("s3")
+    s3 = boto3.client(
+        "s3",
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
+        region_name=region,
+    )
     try:
         s3.create_bucket(Bucket=bucket_name)
     except ClientError as e:
@@ -117,17 +166,23 @@ def create_encrypted_bucket(bucket_name: str) -> None:
             "BucketAlreadyOwnedByYou",
         ):
             raise e
-
     s3.put_bucket_encryption(
         Bucket=bucket_name,
         ServerSideEncryptionConfiguration={
-            "Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]
+            "Rules": [
+                {"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}
+            ]
         },
     )
 
 
-def download_and_extract_model(model_uri: str, 
-                               local_dir: str) -> str:
+def download_and_extract_model(
+    model_uri: str, 
+    local_dir: str,
+    aws_access_key_id: str,
+    aws_secret_access_key: str,
+    aws_session_token: str,
+) -> str:
     """
     Downloads a model tarfile from the specified model_uri (S3) and extracts it to the local directory.
 
@@ -142,7 +197,14 @@ def download_and_extract_model(model_uri: str,
     exp_name = key.split("/")[1]
     local_model_dir = f"{local_dir}/{exp_name}"
     os.makedirs(local_model_dir, exist_ok=True)
-    file_path = download_file(s3_path=key, bucket=bucket, local_dir=local_model_dir)
+    file_path = download_file(
+        s3_path=key, 
+        bucket=bucket, 
+        local_dir=local_model_dir,
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        aws_session_token=aws_session_token,
+    )
     with tarfile.open(file_path, mode="r") as tar:
         tar.extractall(local_model_dir)
     return local_model_dir
