@@ -2,4 +2,5 @@ data
 models
 __pycache__
 *draft*
-*credentials.cfg
+.aws/credentials.cfg
+.aws/settings.cfg
