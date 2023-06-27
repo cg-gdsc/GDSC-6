@@ -4,3 +4,4 @@ __pycache__
 *draft*
 .aws/credentials.cfg
 .aws/settings.cfg
+venv/
