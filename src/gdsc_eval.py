@@ -4,16 +4,18 @@ This is the evaluation module.
 This module contains functions that help with evaluation of the Huggingface model.
 """
 
+from typing import Any, Dict, List, Union
+
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import torch
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, confusion_matrix
-from typing import Dict, Union, List, Any
+from sklearn.metrics import (accuracy_score, confusion_matrix,
+                             precision_recall_fscore_support)
 
 
-def make_predictions(examples: torch.Tensor, 
-                     model: torch.nn.Module, 
+def make_predictions(examples: torch.Tensor,
+                     model: torch.nn.Module,
                      device: Union[str, torch.device],
                      labels: torch.Tensor = None) -> Dict[str, Union[List[str], np.ndarray]]:
     """
@@ -60,8 +62,8 @@ def compute_metrics(pred: Any) -> Dict[str, float]:
     acc = accuracy_score(labels, preds)
     return {"accuracy": acc, "f1": f1, "precision": precision, "recall": recall}
 
-def plot_confusion_matrix(y_true: np.ndarray, 
-                          y_preds: np.ndarray, 
+def plot_confusion_matrix(y_true: np.ndarray,
+                          y_preds: np.ndarray,
                           normalize: str = "true") -> None:
     """
     Plot a confusion matrix.
@@ -69,8 +71,8 @@ def plot_confusion_matrix(y_true: np.ndarray,
     Parameters:
         y_true (np.ndarray): The true labels.
         y_preds (np.ndarray): The predicted labels.
-        normalize (str, optional): Determines if the confusion matrix should be normalized. 
-            Valid values are "true" (default) to normalize over the true labels, 
+        normalize (str, optional): Determines if the confusion matrix should be normalized.
+            Valid values are "true" (default) to normalize over the true labels,
             "pred" to normalize over the predicted labels, "all" to normalize over the whole population
             or None to not normalize the matrix.
 
@@ -90,4 +92,3 @@ def plot_confusion_matrix(y_true: np.ndarray,
         plt.title("Confusion matrix normalized over whole population")
     else:
         plt.title("Confusion matrix")
-    

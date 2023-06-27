@@ -81,9 +81,11 @@ def download_file(
     )
     file_name = s3_path.split("/")[-1]
     f = (
-        f"{PROJECT_DIR}/{local_dir}/{file_name}"
+        os.path.join(PROJECT_DIR, local_dir, file_name)
+        # f"{PROJECT_DIR}/{local_dir}/{file_name}"
         if local_dir
-        else f"{PROJECT_DIR}/{file_name}"
+        # else f"{PROJECT_DIR}/{file_name}"
+        else os.join.path(PROJECT_DIR, file_name)
     )
     if os.path.isfile(f):
         logger.info(f"File {s3_path} already exists. Skipping download")
@@ -177,7 +179,7 @@ def create_encrypted_bucket(
 
 
 def download_and_extract_model(
-    model_uri: str, 
+    model_uri: str,
     local_dir: str,
     aws_access_key_id: str,
     aws_secret_access_key: str,
@@ -198,8 +200,8 @@ def download_and_extract_model(
     local_model_dir = f"{local_dir}/{exp_name}"
     os.makedirs(local_model_dir, exist_ok=True)
     file_path = download_file(
-        s3_path=key, 
-        bucket=bucket, 
+        s3_path=key,
+        bucket=bucket,
         local_dir=local_model_dir,
         aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key,

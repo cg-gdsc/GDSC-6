@@ -5,18 +5,19 @@ This module contains functions that help with plotting audio data
 """
 
 import math
+from typing import List, Optional, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torchaudio
-from typing import List, Optional, Tuple
 
 
-def show_sampling(length: float, 
-                  sampling_rate: float, 
-                  frequency: float, 
-                  show_signal: bool = True, 
-                  show_sampling: bool = True, 
+def show_sampling(length: float,
+                  sampling_rate: float,
+                  frequency: float,
+                  show_signal: bool = True,
+                  show_sampling: bool = True,
                   plot_sampling: bool = False) -> None:
     """
     Plot the original signal and the effect of sampling.
@@ -32,7 +33,7 @@ def show_sampling(length: float,
     Returns:
         None
     """
-    
+
     x = np.linspace(0, length, 10000)
     y = np.sin(2 * np.pi * frequency * x)
     number_of_points = int(length * sampling_rate)
@@ -51,12 +52,12 @@ def show_sampling(length: float,
     plt.ylabel("Amplitude")
     plt.grid()
 
-    
-def signal_generator(length: float, 
-                     sampling_rate: int, 
-                     frequencies: List[float], 
-                     show_signals: bool = True, 
-                     show_signals_sum: bool = False, 
+
+def signal_generator(length: float,
+                     sampling_rate: int,
+                     frequencies: List[float],
+                     show_signals: bool = True,
+                     show_signals_sum: bool = False,
                      split_plots: bool = False) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generates a signal consisting of sinusoids with specified frequencies.
@@ -71,7 +72,7 @@ def signal_generator(length: float,
 
     Raises:
         AssertionError: if frequencies is not passed as a list
-        
+
     Returns:
         signal (ndarray): generated signal as a 2D numpy array
         time (ndarray): time axis of the generated signal as a 1D numpy array
@@ -81,37 +82,37 @@ def signal_generator(length: float,
     number_of_points = int(length * sampling_rate)
     time = np.linspace(0, length, number_of_points)
     signal = np.zeros((len(frequencies),number_of_points))
-    
+
     for i, hz in enumerate(frequencies):
         signal[i] += np.sin(2*np.pi*hz*time)
-        
+
     if split_plots and show_signals:
         if show_signals_sum:
             plt.figure(figsize = (20,6))
-            plt.plot(time, signal.sum(axis = 0), lw = 3, color = 'red', label = 'sum')
-            plt.legend(loc = 'upper right')
+            plt.plot(time, signal.sum(axis=0), lw=3, color='red', label='sum')
+            plt.legend(loc='upper right')
             plt.xlabel("Time")
             plt.ylabel("Amplitude")
             plt.show()
         for i,sig in enumerate(signal):
-                plt.figure(figsize = (20,6))
-                plt.plot(time, sig, label = str(frequencies[i]) + ' Hz')
+                plt.figure(figsize=(20,6))
+                plt.plot(time, sig, label=str(frequencies[i])+' Hz')
                 plt.xlabel("Time")
                 plt.ylabel("Amplitude")
-                plt.legend(loc = 'upper right')
+                plt.legend(loc='upper right')
                 plt.show()
     else:
-        plt.figure(figsize = (20,6))
+        plt.figure(figsize=(20,6))
         if show_signals:
             for i,sig in enumerate(signal):
-                plt.plot(time, sig, label = str(frequencies[i]) + ' Hz')
+                plt.plot(time, sig, label=str(frequencies[i]) + ' Hz')
         if show_signals_sum:
-            plt.plot(time, signal.sum(axis = 0), lw = 3, color = 'red', label = 'sum')
-        plt.legend(loc = 'upper right')
+            plt.plot(time, signal.sum(axis=0), lw=3, color='red', label='sum')
+        plt.legend(loc='upper right')
         plt.xlabel("Time")
         plt.ylabel("Amplitude")
         plt.show()
-        
+
     return signal, time
 
 
@@ -143,7 +144,12 @@ def plot_random_spec(df: pd.DataFrame, labels: List[int] = [0, 1]) -> None:
     num_paths = len(paths)
     rows = math.ceil(num_paths / 2)
     cols = min(num_paths, 2)
-    figure, axes = plt.subplots(rows, cols, figsize=(20, rows * 10 / cols), squeeze=False)
+    figure, axes = plt.subplots(
+        rows,
+        cols,
+        figsize=(20, rows*10/cols),
+        squeeze=False
+    )
     figure.tight_layout()
 
     for ax, path, spec in zip(axes.flat, paths, species):
@@ -153,15 +159,15 @@ def plot_random_spec(df: pd.DataFrame, labels: List[int] = [0, 1]) -> None:
         ax.set_xlabel("Time")
         ax.set_ylabel("Frequency")
         plt.colorbar(im).set_label('Intensity [dB]')
-        
-        
+
+
     if len(labels)>1 & len(labels)%2!=0:
         figure.delaxes(axes.flat[-1])
 
 
     plt.tight_layout()
     plt.show()
-    
+
 def plot_spec(files: List[str]) -> None:
     """
     Plot spectrograms of audio files.
@@ -180,7 +186,12 @@ def plot_spec(files: List[str]) -> None:
     num_files = len(files)
     rows = math.ceil(num_files / 2)
     cols = min(num_files, 2)
-    figure, axes = plt.subplots(rows, cols, figsize=(20, rows * 10 / cols), squeeze=False)
+    figure, axes = plt.subplots(
+        rows,
+        cols,
+        figsize=(20, rows*10/cols),
+        squeeze=False
+    )
     figure.tight_layout()
 
     for ax, file in zip(axes.flat, files):
@@ -190,7 +201,7 @@ def plot_spec(files: List[str]) -> None:
         ax.set_xlabel("Time")
         ax.set_ylabel("Frequency")
         plt.colorbar(im).set_label('Intensity [dB]')
-    
+
     if num_files>1 & num_files%2!=0:
         figure.delaxes(axes.flat[-1])
 
@@ -214,7 +225,7 @@ def plot_waveform(path: str, time: Optional[float] = None) -> None:
     if time is not None:
         num_frames = math.ceil(time * sample_rate)
         waveform = waveform[:, :num_frames]
-    
+
     num_channels, num_frames = waveform.shape
     time_axis = np.arange(0, num_frames) / sample_rate
 
